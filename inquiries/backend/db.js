@@ -8,6 +8,7 @@ db.serialize(() => {
     parent_id INTEGER,
     author TEXT NOT NULL,
     content TEXT NOT NULL,
+    categories TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 });

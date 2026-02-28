@@ -1,17 +1,37 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import Pins from './components/Pins'
 import Feed from './components/Feed'
 import Profile from './components/Profile'
+import Inquiries from './components/Inquiries'
 
 function App() {
-  const [activeTab, setActiveTab] = useState('pins')
+  // Get initial tab from URL parameter or default to 'pins'
+  const getInitialTab = () => {
+    const params = new URLSearchParams(window.location.search)
+    const tab = params.get('tab')
+    return tab || 'pins'
+  }
+
+  const [activeTab, setActiveTab] = useState(getInitialTab())
+
+  // Update URL when tab changes
+  useEffect(() => {
+    const url = new URL(window.location)
+    url.searchParams.set('tab', activeTab)
+    window.history.pushState({}, '', url)
+  }, [activeTab])
 
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">CalGuru</h1>
-        <p className="app-subtitle">Berkeley Student Community</p>
+        <div className="header-content">
+          <a href="main.html" className="back-button">← Back to Home</a>
+          <div className="header-text">
+            <h1 className="app-title">CalGuru</h1>
+            <p className="app-subtitle">Berkeley Student Community</p>
+          </div>
+        </div>
       </header>
       
       <nav className="app-nav">
@@ -28,6 +48,12 @@ function App() {
           Pins
         </button>
         <button 
+          className={`nav-button ${activeTab === 'inquiries' ? 'active' : ''}`}
+          onClick={() => setActiveTab('inquiries')}
+        >
+          Inquiries
+        </button>
+        <button 
           className={`nav-button ${activeTab === 'profile' ? 'active' : ''}`}
           onClick={() => setActiveTab('profile')}
         >
@@ -38,6 +64,7 @@ function App() {
       <main className="app-content">
         {activeTab === 'feed' && <Feed />}
         {activeTab === 'pins' && <Pins />}
+        {activeTab === 'inquiries' && <Inquiries />}
         {activeTab === 'profile' && <Profile />}
       </main>
     </div>

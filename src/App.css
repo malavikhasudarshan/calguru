@@ -6,7 +6,7 @@
 }
 
 .app-header {
-  background: #003262;
+  background: #2F4F3F;
   color: white;
   padding: 1.5rem 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -78,14 +78,14 @@
 }
 
 .nav-button:hover {
-  color: #003262;
+  color: #2F4F3F;
   background: #f8f8f8;
   transform: translateY(-1px);
 }
 
 .nav-button.active {
-  color: #003262;
-  border-bottom-color: #FDB515;
+  color: #2F4F3F;
+  border-bottom-color: #D4A017;
   font-weight: 800;
 }
 

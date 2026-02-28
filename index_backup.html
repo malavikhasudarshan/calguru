@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>CalGuru Entrance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800;900&display=swap" rel="stylesheet">
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background: #4A5F28;
+      overflow: hidden;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    .stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: visible;
+    }
+
+    .letter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 900;
+      font-size: clamp(320px, 52vw, 1100px);
+      line-height: 0.82;
+      letter-spacing: -0.02em;
+      user-select: none;
+      transform-origin: 0 0;
+      /* top-left so x/y + scale don't drift */
+      will-change: transform;
+      cursor: default;
+      transition: transform 180ms ease;
+      -webkit-text-stroke: 0.028em currentColor;
+      paint-order: stroke fill;
+    }
+
+    .letter:hover {
+      transform: scale(1.05);
+    }
+
+    .hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      opacity: 0;
+      color: #F2E8DC;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stage" id="stage">
+    <a href="main.html" class="hint" id="hint">Enter CalGuru →</a>
+  </div>
+
+  <!-- GSAP (fast, reliable) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script>
+    const lettersText = ["C", "A", "L", "G", "U", "R", "U"];
+    const colors = [
+      "#C97B84", "#D4A017", "#6B3E26", "#C65D3B",
+      "#8C7AA9", "#2F4F3F", "#F2E8DC"
+    ];
+
+    const stage = document.getElementById("stage");
+    const hint = document.getElementById("hint");
+
+    const vw = () => window.innerWidth;
+    const vh = () => window.innerHeight;
+
+    // Create letters
+    const letterEls = lettersText.map((ch, i) => {
+      const el = document.createElement("div");
+      el.className = "letter";
+      el.textContent = ch;
+      el.style.color = colors[i % colors.length];
+      stage.appendChild(el);
+      return el;
+    });
+
+    // Start letters at the TOP of the screen (above viewport), spread across width, tilted — falling from the sky
+    function scatterStartPositions() {
+      const padding = 20;
+      letterEls.forEach(el => gsap.set(el, { scale: 1, x: 0, y: 0, rotation: 0 }));
+      const widths = letterEls.map(el => el.getBoundingClientRect().width);
+
+      letterEls.forEach((el, i) => {
+        const w = widths[i] || 200;
+        const x = gsap.utils.random(padding, vw() - w - padding);
+        gsap.set(el, {
+          x,
+          y: -vh() * gsap.utils.random(0.9, 1.4),
+          rotation: gsap.utils.random(-28, 28),
+          scale: 1
+        });
+      });
+
+      gsap.set(hint, { opacity: 0 });
+    }
+    function computeFinalTargets() {
+      letterEls.forEach(el => gsap.set(el, { x: 0, y: 0, scale: 1, rotation: 0 }));
+
+      const widths = letterEls.map(el => el.getBoundingClientRect().width);
+      const lineHeight = letterEls[0].getBoundingClientRect().height;
+
+      const letterGap = vw() * 0.003;
+      const lineGap = vh() * 0.012;
+
+      const widthCAL = widths[0] + widths[1] + widths[2] + 2 * letterGap;
+      const widthGURU = widths[3] + widths[4] + widths[5] + widths[6] + 3 * letterGap;
+      const maxLineWidth = Math.max(widthCAL, widthGURU);
+
+      const scaleX = (vw() * 0.98) / maxLineWidth;
+      const scaleY = (vh() * 0.97 - lineGap) / (2 * lineHeight);
+      const scale = Math.min(scaleX, scaleY);
+
+      const blockHeight = 2 * lineHeight * scale + lineGap;
+      const topY = (vh() - blockHeight) / 2;
+      const line1Y = topY;
+      const line2Y = topY + lineHeight * scale + lineGap;
+
+      const line1StartX = (vw() - widthCAL * scale) / 2;
+      const line2StartX = (vw() - widthGURU * scale) / 2;
+
+      const targets = [];
+
+      let x = line1StartX;
+      for (let i = 0; i < 3; i++) {
+        targets.push({ x, y: line1Y, rotation: 0, scale });
+        x += widths[i] * scale + letterGap * scale;
+      }
+
+      x = line2StartX;
+      for (let i = 3; i < 7; i++) {
+        targets.push({ x, y: line2Y, rotation: 0, scale });
+        x += widths[i] * scale + letterGap * scale;
+      }
+
+      return targets;
+    }
+
+    const FALL_DURATION = 0.28;
+    const BOUNCE_UP = 24;
+    const BOTTOM_PAD = 0;
+    const BOUNCE_DURATION = 0.16;
+    const SETTLE_DURATION = 0.18;
+    const PAUSE_BEFORE_REARRANGE = 0.5;
+
+    const totalDropTime = FALL_DURATION + BOUNCE_DURATION + SETTLE_DURATION;
+
+    // Fall from top → spin in air → land at random rotation; bottom of letter (in that rotation) touches page bottom.
+    function runAnimation() {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      const letterH = letterEls[0].getBoundingClientRect().height;
+
+      function addDrop(el, startTime) {
+        const w = el.getBoundingClientRect().width;
+        const pad = 16;
+        const startX = Number(gsap.getProperty(el, "x")) || 0;
+        const drift = gsap.utils.random(-40, 40);
+        const endX = Math.max(pad, Math.min(startX + drift, vw() - w - pad));
+
+        const rotStart = Number(gsap.getProperty(el, "rotation")) || 0;
+        const tumble = gsap.utils.random(-120, 120);
+        const rotMid = rotStart + tumble;
+        const rotLand = gsap.utils.random(-35, 35);
+
+        const rad = (rotLand * Math.PI) / 180;
+        const landY = vh() - BOTTOM_PAD - (letterH / 2) * (1 + Math.cos(rad));
+        const bounceY = landY - BOUNCE_UP;
+
+        tl.to(el, {
+          y: landY,
+          x: endX,
+          rotation: rotMid,
+          duration: FALL_DURATION,
+          ease: "power3.in"
+        }, startTime);
+
+        tl.to(el, {
+          y: bounceY,
+          duration: BOUNCE_DURATION,
+          ease: "power2.out"
+        }, startTime + FALL_DURATION);
+
+        tl.to(el, {
+          y: landY,
+          rotation: rotLand,
+          duration: SETTLE_DURATION,
+          ease: "power2.in"
+        }, startTime + FALL_DURATION + BOUNCE_DURATION);
+      }
+
+      letterEls.forEach((el, i) => {
+        addDrop(el, i * totalDropTime);
+      });
+
+      tl.to({}, { duration: PAUSE_BEFORE_REARRANGE }, letterEls.length * totalDropTime);
+
+      tl.add(() => {
+        const targets = computeFinalTargets();
+        letterEls.forEach((el, i) => {
+          tl.to(el, {
+            x: targets[i].x,
+            y: targets[i].y,
+            rotation: targets[i].rotation,
+            scale: targets[i].scale,
+            duration: 0.9,
+            ease: "power4.out"
+          }, 0);
+        });
+      });
+
+      // Hint appears at end
+      tl.to(hint, { opacity: 0.75, duration: 0.5 }, "+=0.2");
+
+      return tl;
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") window.location.href = "main.html";
+    });
+
+    scatterStartPositions();
+    let timeline = runAnimation();
+
+    window.addEventListener("resize", () => {
+      timeline.kill();
+      scatterStartPositions();
+      timeline = runAnimation();
+    });
+  </script>
+  <script src="js/cursor-trail.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CalGuru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .cell {
+      display: flex;
+      position: relative;
+      z-index: 1;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-width: 0;
+      min-height: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 900;
+      font-size: clamp(2rem, 26vmin, 14rem);
+      letter-spacing: -0.03em;
+      line-height: 0.92;
+      color: #000;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      padding: 0.4em;
+      overflow-wrap: normal;
+      word-break: normal;
+      box-sizing: border-box;
+    }
+
+    .cell:hover {
+      color: #fff;
+    }
+
+    .cell.study  { background: #A8D4E6; }   /* light blue */
+    .cell.ask    { background: #E8A0BF; }   /* muted hot pink */
+    .cell.news   { background: #2D6B3A; }   /* forest green */
+    .cell.photo  { background: #F4C4A8; }   /* peach */
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <a href="#" class="cell study">STUDY</a>
+    <a href="#" class="cell ask">ASK</a>
+    <a href="./news.html" class="cell news">NEWS</a>
+    <a href="#" class="cell photo">PHOTO BOX</a>
+  </div>
+  <script src="js/cursor-trail.js"></script>
+</body>
+</html>

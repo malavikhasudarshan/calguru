@@ -1,0 +1,169 @@
+/* ==========================================================================
+   CalGuru Entrance — Layout & styling
+   Minimal, bold typography; animation is handled in JS.
+   ========================================================================== */
+
+:root {
+  /* Vibrant letter colors — one per letter for strong visual impact */
+  --letter-c:    #E63946;  /* red */
+  --letter-a:    #F4A261;  /* orange */
+  --letter-l:    #2A9D8F;  /* teal */
+  --letter-g:    #264653;  /* dark blue */
+  --letter-u1:   #9B5DE5;  /* purple */
+  --letter-r:    #00F5D4;  /* mint */
+  --letter-u2:   #F15BB5;  /* pink */
+
+  --font-hero: "Bebas Neue", sans-serif;
+  /* One size: huge and thick, fills the screen in fall and in compiled "CAL GURU" */
+  --letter-size: clamp(18rem, 72vw, 100vmin);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background: #fff;
+  font-family: var(--font-hero);
+  overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Hero: full viewport, white, centered content area
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   Letters container
+   - During drop/rearrange: absolute positioning; JS sets transform.
+   - In final state: flex layout for "CAL GURU" centered.
+   -------------------------------------------------------------------------- */
+.letters-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.letters-container.is-centered {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.02em;
+  pointer-events: auto;
+  transform-origin: center center;
+  transform: scale(var(--fit-scale, 1)); /* JS sets --fit-scale so word fits viewport */
+}
+
+/* Final state: wrappers flow in flex so "CAL GURU" stays centered on resize */
+.letters-container.is-centered .letter-wrapper {
+  position: static;
+  transform: none;
+}
+
+/* Spacer between "CAL" and "GURU" in final layout */
+.letters-container.is-centered .letter-wrapper:nth-child(3) {
+  margin-right: 0.15em;
+}
+
+/* Wrapper: receives position + rotation from JS; origin center for natural spin */
+.letter-wrapper {
+  position: absolute;
+  display: inline-block;
+  will-change: transform;
+  pointer-events: auto;
+  transform-origin: 50% 50%;
+}
+
+/* --------------------------------------------------------------------------
+   Individual letters — massive and thick, fill the screen
+   -------------------------------------------------------------------------- */
+.letter {
+  display: inline-block;
+  font-family: var(--font-hero);
+  font-weight: 400;
+  font-size: var(--letter-size);
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  user-select: none;
+  transition: transform 0.35s var(--ease-out-back);
+  -webkit-text-stroke: 0.03em currentColor;
+  paint-order: stroke fill;
+}
+
+/* Color per letter (data-color set in HTML) */
+.letter[data-color="c"]  { color: var(--letter-c); }
+.letter[data-color="a"]  { color: var(--letter-a); }
+.letter[data-color="l"]  { color: var(--letter-l); }
+.letter[data-color="g"]  { color: var(--letter-g); }
+.letter[data-color="u1"] { color: var(--letter-u1); }
+.letter[data-color="r"]  { color: var(--letter-r); }
+.letter[data-color="u2"] { color: var(--letter-u2); }
+
+/* Hover: slight scale-up in final state (wrapper has position; letter has scale) */
+.letters-container.is-centered .letter:hover {
+  transform: scale(1.08);
+}
+
+/* --------------------------------------------------------------------------
+   Navigation hint — bottom center, appears after rearrange
+   -------------------------------------------------------------------------- */
+.nav-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-hero);
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #333;
+  text-decoration: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s var(--ease-out-expo), color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-hint.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-hint:hover {
+  color: #000;
+  transform: translateX(-50%) scale(1.02);
+}
+
+/* Responsive: still massive, fill the screen */
+@media (max-width: 480px) {
+  :root {
+    --letter-size: clamp(14rem, 65vw, 85vmin);
+  }
+}

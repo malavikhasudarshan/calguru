@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News — CalGuru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    body {
+      background: #a67c52;
+      background-image: url("assets/cork-board.png");
+      background-repeat: repeat;
+      min-height: 100vh;
+    }
+
+    .layout {
+      min-height: 100vh;
+    }
+
+    .back-home {
+      position: fixed;
+      top: 1.25rem;
+      left: 1.25rem;
+      z-index: 10;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #2F4F3F;
+      text-decoration: none;
+    }
+
+    .back-home:hover {
+      color: #1a3328;
+    }
+
+    .main {
+      padding: 2rem 1.25rem 2rem 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      align-content: start;
+      max-width: 100%;
+    }
+
+    .poster-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      padding-top: 12px;
+    }
+
+    .poster-wrap::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #e8e8e8, #8b7355 40%, #5c4a3a);
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.4),
+        0 0 0 2px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+      z-index: 2;
+    }
+
+    .poster-wrap::after {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 8px;
+      background: linear-gradient(180deg, #6b5b4a, #4a3d30);
+      border-radius: 0 0 2px 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+
+    .card {
+      position: relative;
+      padding: 1.75rem 1.5rem;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      background: #faf8f5;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.04'/%3E%3C/svg%3E");
+      box-shadow:
+        0 4px 6px rgba(0,0,0,0.15),
+        0 10px 25px rgba(0,0,0,0.2),
+        2px 2px 0 rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .card .tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      opacity: 0.85;
+    }
+
+    .card h2 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin: 0 0 0.75rem 0;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .card .copy {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      flex: 1;
+      opacity: 0.92;
+    }
+
+    .card .copy ul {
+      margin: 0.4rem 0 0 0;
+      padding-left: 1.1rem;
+    }
+
+    .card .copy li {
+      margin-bottom: 0.2rem;
+    }
+
+    .card[data-color="maroon"] { color: #6b2030; }
+    .card[data-color="maroon"] .tag { color: #8b2942; }
+    .card[data-color="navy"] { color: #002855; }
+    .card[data-color="navy"] .tag { color: #003262; }
+    .card[data-color="green"] { color: #1e4d2b; }
+    .card[data-color="green"] .tag { color: #2d6b3a; }
+    .card[data-color="brown"] { color: #3d2c1e; }
+    .card[data-color="brown"] .tag { color: #5c4033; }
+    .card[data-color="purple"] { color: #4a3a5c; }
+    .card[data-color="purple"] .tag { color: #6b4e71; }
+    .card[data-color="red"] { color: #8b1a2a; }
+    .card[data-color="red"] .tag { color: #a02030; }
+    .card[data-color="blue"] { color: #0d2840; }
+    .card[data-color="blue"] .tag { color: #1b3d6b; }
+
+    .poster-wrap:nth-child(1) .card { transform: rotate(-1.2deg); }
+    .poster-wrap:nth-child(2) .card { transform: rotate(0.8deg); }
+    .poster-wrap:nth-child(3) .card { transform: rotate(1.5deg); }
+    .poster-wrap:nth-child(4) .card { transform: rotate(-0.7deg); }
+    .poster-wrap:nth-child(5) .card { transform: rotate(1deg); }
+    .poster-wrap:nth-child(6) .card { transform: rotate(-1.5deg); }
+    .poster-wrap:nth-child(7) .card { transform: rotate(0.5deg); }
+    .poster-wrap:nth-child(8) .card { transform: rotate(-0.9deg); }
+    .poster-wrap:nth-child(9) .card { transform: rotate(1.2deg); }
+    .poster-wrap:nth-child(10) .card { transform: rotate(-1deg); }
+    .poster-wrap:nth-child(11) .card { transform: rotate(0.6deg); }
+    .poster-wrap:nth-child(12) .card { transform: rotate(-1.3deg); }
+
+    .poster-wrap:hover .card {
+      box-shadow:
+        0 6px 12px rgba(0,0,0,0.18),
+        0 14px 35px rgba(0,0,0,0.25);
+    }
+
+    .card .char {
+      display: inline;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <a href="main.html" class="back-home">← Back to Home</a>
+    <main class="main">
+      <div class="poster-wrap">
+        <article class="card" data-color="maroon">
+          <span class="tag">Campus</span>
+          <h2>SATHER GATE</h2>
+          <div class="copy">
+            THE HEART OF CAMPUS. A WHOLE NEW SEMESTER.
+            <br><br>
+            Photos, meetups, and the Campanile. What’s happening this week?
+            <ul>
+              <li>Rally tables</li>
+              <li>Performers</li>
+              <li>Sunset views</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="brown">
+          <span class="tag">Student Project</span>
+          <h2>CAL DAY 2025</h2>
+          <div class="copy">
+            OPEN HOUSE FOR THE WHOLE BAY.
+            <br><br>
+            Tours, labs, and free swag. Come see what Berkeley is about.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="navy">
+          <span class="tag">Go Bears</span>
+          <h2>MEMORIAL STADIUM</h2>
+          <div class="copy">
+            FOOTBALL. TAILGATES. BLUE & GOLD.
+            <br><br>
+            Game day guide: where to sit, where to eat, how to get there.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="green">
+          <span class="tag">Campus</span>
+          <h2>RSF — REC WELL</h2>
+          <div class="copy">
+            GET MOVING. STUDENT MEMBERSHIP INCLUDED.
+            <br><br>
+            Pools, courts, weights. Hours and how to book.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="brown">
+          <span class="tag">Berkeley</span>
+          <h2>TELEGRAPH AVE</h2>
+          <div class="copy">
+            FOOD, SHOPS, AND VIBES.
+            <br><br>
+            Best spots for coffee, books, and late-night eats.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="brown">
+          <span class="tag">Events</span>
+          <h2>SPROUL PLAZA</h2>
+          <div class="copy">
+            TABLING. CONCERTS. PROTESTS.
+            <br><br>
+            What’s on this week at the center of student life.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="green">
+          <span class="tag">Ad</span>
+          <h2>BERKELEY ART MUSEUM</h2>
+          <div class="copy">
+            BAMPFA. FREE FOR STUDENTS.
+            <br><br>
+            Film, galleries, and the café. Plan your visit.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="brown">
+          <span class="tag">City</span>
+          <h2>BERKELEY MARINA</h2>
+          <div class="copy">
+            SUNSETS. PICNICS. ESCAPE CAMPUS.
+            <br><br>
+            Quick bus ride. Views of the Bay and the bridge.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="purple">
+          <span class="tag">Student Orgs</span>
+          <h2>DE CAL</h2>
+          <div class="copy">
+            DECAL — DEMOCRATIC EDUCATION AT CAL.
+            <br><br>
+            Student-taught courses. Find one that fits your schedule.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="red">
+          <span class="tag">Go Bears</span>
+          <h2>HAAS PAVILION</h2>
+          <div class="copy">
+            BASKETBALL. VOLLEYBALL. BE THERE.
+            <br><br>
+            Student section, tickets, and game day tips.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="brown">
+          <span class="tag">Food</span>
+          <h2>ASUC EATS</h2>
+          <div class="copy">
+            DINING HALLS & MEAL SWIPES.
+            <br><br>
+            Café 3, Crossroads, Clark Kerr. Hours and menus.
+          </div>
+        </article>
+      </div>
+
+      <div class="poster-wrap">
+        <article class="card" data-color="blue">
+          <span class="tag">Campus</span>
+          <h2>DOE LIBRARY</h2>
+          <div class="copy">
+            MAIN STACKS. 24/7 DURING FINALS.
+            <br><br>
+            Study spots, reservable rooms, and where to find quiet.
+          </div>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script>
+    (function () {
+      var palette = [
+        "#C97B84", "#D4A017", "#6B3E26", "#C65D3B",
+        "#8C7AA9", "#2F4F3F", "#4A5F28"
+      ];
+      function colorizeElement(el) {
+        var colorIndex = 0;
+        function walk(node) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            var text = node.textContent;
+            if (!text.trim()) return;
+            var frag = document.createDocumentFragment();
+            for (var i = 0; i < text.length; i++) {
+              var span = document.createElement("span");
+              span.className = "char";
+              span.style.color = palette[colorIndex % palette.length];
+              span.textContent = text[i];
+              frag.appendChild(span);
+              colorIndex++;
+            }
+            node.parentNode.replaceChild(frag, node);
+            return;
+          }
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            Array.from(node.childNodes).forEach(walk);
+          }
+        }
+        walk(el);
+      }
+      document.querySelectorAll(".card .tag, .card h2, .card .copy").forEach(colorizeElement);
+    })();
+  </script>
+  <script src="js/cursor-trail.js"></script>
+</body>
+</html>

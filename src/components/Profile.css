@@ -13,7 +13,7 @@
 
 .profile-cover {
   height: 200px;
-  background: linear-gradient(135deg, #003262 0%, #3b7ea1 50%, #FDB515 100%);
+  background: linear-gradient(135deg, #2F4F3F 0%, #8C7AA9 50%, #C97B84 100%);
   position: relative;
 }
 
@@ -35,7 +35,7 @@
 .profile-avatar {
   width: 140px;
   height: 140px;
-  background: linear-gradient(135deg, #003262, #3b7ea1);
+  background: linear-gradient(135deg, #C65D3B, #C97B84);
   border-radius: 50%;
   border: 6px solid white;
   display: flex;
@@ -50,7 +50,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: #003262;
+  background: #C65D3B;
   color: white;
   border: none;
   border-radius: 8px;
@@ -72,7 +72,7 @@
 .profile-name {
   font-size: 32px;
   font-weight: 700;
-  color: #003262;
+  color: #2F4F3F;
   margin: 0 0 5px 0;
 }
 
@@ -106,7 +106,7 @@
 }
 
 .meta-item svg {
-  color: #003262;
+  color: #8C7AA9;
   flex-shrink: 0;
 }
 
@@ -166,11 +166,11 @@
 
 .tab-button:hover {
   background: #f5f5f5;
-  color: #003262;
+  color: #2F4F3F;
 }
 
 .tab-button.active {
-  background: #003262;
+  background: #8C7AA9;
   color: white;
 }
 
@@ -196,7 +196,7 @@
 
 .info-card h3 {
   margin: 0 0 20px 0;
-  color: #003262;
+  color: #2F4F3F;
   font-size: 18px;
   font-weight: 600;
 }
@@ -214,7 +214,7 @@
 }
 
 .info-item svg {
-  color: #003262;
+  color: #C97B84;
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -275,7 +275,7 @@
 }
 
 .post-engagement svg {
-  color: #003262;
+  color: #8C7AA9;
 }
 
 /* Circles Section */
@@ -306,13 +306,13 @@
 }
 
 .circle-card:hover {
-  background: #003262;
-  border-color: #003262;
+  background: #8C7AA9;
+  border-color: #8C7AA9;
   color: white;
 }
 
 .circle-card svg {
-  color: #003262;
+  color: #8C7AA9;
 }
 
 .circle-card:hover svg {
@@ -359,7 +359,7 @@
 .friend-avatar {
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, #003262, #3b7ea1);
+  background: linear-gradient(135deg, #6B3E26, #C65D3B);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -370,8 +370,8 @@
 
 .friend-name {
   font-size: 14px;
-  font-weight: 600;
-  color: #003262;
+  font-weight: 700;
+  color: #2F4F3F;
   margin-bottom: 4px;
 }
 
@@ -382,7 +382,7 @@
 
 /* Coming Soon Notice */
 .coming-soon-notice {
-  background: linear-gradient(135deg, #003262, #3b7ea1);
+  background: linear-gradient(135deg, #C65D3B, #C97B84);
   color: white;
   padding: 30px;
   border-radius: 12px;

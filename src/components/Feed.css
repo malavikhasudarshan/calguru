@@ -31,7 +31,7 @@
 
 .sidebar-section h3 {
   margin: 0 0 15px 0;
-  color: #003262;
+  color: #2F4F3F;
   font-size: 16px;
   font-weight: 600;
 }
@@ -60,9 +60,9 @@
 }
 
 .category-filter.active {
-  background: #003262;
+  background: #8C7AA9;
   color: white;
-  border-color: #003262;
+  border-color: #8C7AA9;
 }
 
 .stats-grid {
@@ -81,14 +81,14 @@
 }
 
 .stat-item svg {
-  color: #003262;
+  color: #C97B84;
   flex-shrink: 0;
 }
 
 .stat-number {
   font-size: 20px;
   font-weight: 700;
-  color: #003262;
+  color: #C65D3B;
   line-height: 1;
 }
 
@@ -110,8 +110,8 @@
   background: #f5f5f5;
   border-radius: 6px;
   font-size: 13px;
-  color: #003262;
-  font-weight: 500;
+  color: #2F4F3F;
+  font-weight: 700;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -138,7 +138,7 @@
 
 .feed-header h2 {
   margin: 0 0 8px 0;
-  color: #003262;
+  color: #2F4F3F;
   font-size: 28px;
 }
 
@@ -161,7 +161,7 @@
 .prompt-avatar {
   width: 48px;
   height: 48px;
-  background: #003262;
+  background: linear-gradient(135deg, #C97B84, #8C7AA9);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -186,7 +186,7 @@
 }
 
 .prompt-input input:hover {
-  border-color: #003262;
+  border-color: #8C7AA9;
   background: white;
 }
 
@@ -225,7 +225,7 @@
 .author-avatar {
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, #003262, #3b7ea1);
+  background: linear-gradient(135deg, #6B3E26, #C65D3B);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -237,8 +237,8 @@
 }
 
 .author-name {
-  font-weight: 600;
-  color: #003262;
+  font-weight: 700;
+  color: #2F4F3F;
   font-size: 15px;
 }
 
@@ -261,7 +261,7 @@
 
 .post-category {
   padding: 6px 12px;
-  background: #FDB515;
+  background: #D4A017;
   color: white;
   border-radius: 12px;
   font-size: 11px;
@@ -305,14 +305,14 @@
 
 .action-button:hover {
   background: #f5f5f5;
-  border-color: #003262;
-  color: #003262;
+  border-color: #8C7AA9;
+  color: #8C7AA9;
 }
 
 .action-button.active {
-  background: #003262;
+  background: #8C7AA9;
   color: white;
-  border-color: #003262;
+  border-color: #8C7AA9;
 }
 
 .action-button.bookmark {
@@ -320,8 +320,8 @@
 }
 
 .action-button.bookmark.active {
-  background: #FDB515;
-  border-color: #FDB515;
+  background: #D4A017;
+  border-color: #D4A017;
 }
 
 /* Empty State */
@@ -346,7 +346,7 @@
 
 /* Coming Soon Notice */
 .coming-soon-notice {
-  background: linear-gradient(135deg, #003262, #3b7ea1);
+  background: linear-gradient(135deg, #C65D3B, #C97B84);
   color: white;
   padding: 30px;
   border-radius: 12px;

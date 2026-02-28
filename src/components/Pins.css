@@ -197,8 +197,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: #003262;
-  font-weight: 500;
+  color: #2F4F3F;
+  font-weight: 800;
 }
 
 .pin-popup {
@@ -347,14 +347,14 @@
 .upload-btn {
   padding: 12px 20px;
   background: white;
-  border: 2px dashed #003262;
+  border: 2px dashed #8C7AA9;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  color: #003262;
+  color: #8C7AA9;
   font-weight: 700;
   transition: all 0.2s;
   text-transform: uppercase;
@@ -364,7 +364,7 @@
 
 .upload-btn:hover {
   background: #f5f5f5;
-  border-color: #002147;
+  border-color: #6B3E26;
   transform: translateY(-1px);
 }
 
